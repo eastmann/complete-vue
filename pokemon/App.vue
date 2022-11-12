@@ -1,19 +1,23 @@
 <template>
-    <div class="card">
-        <div class="title">
-            Title
-        </div>
+    <div class="cards">
+        <div class="card"
+             v-for="pokemon in pokemons" :key="pokemon.id">
 
-        <div class="content">
-            Content
-        </div>
+             <div class="title">
+                 {{ pokemon.name }}
+             </div>
 
-        <div class="description">
-            Description
+             <div class="content">
+                 <img :src="pokemon.sprite" :alt="pokemon.name">
+             </div>
+
+             <div class="description">
+                 <div v-for="pokemon_type in pokemon.types" :key="pokemon_type">
+                     {{ pokemon_type }}
+                 </div>
+             </div>
         </div>
     </div>
-
-    <button @click="fecthData">Fecth</button>
 </template>
 
 <script>
@@ -28,13 +32,16 @@ export default {
         }
     },
 
+    created() {
+        this.fecthData()
+    },
+
     methods: {
         async fecthData() {
-            // const response = await fetch(`${api}/1`)
-
             const responses = await Promise.all(
                 ids.map(id => fetch(`${api}/${id}`))
             )
+
             const json = await Promise.all(
                 responses.map(response => response.json())
             )
@@ -45,43 +52,42 @@ export default {
                 sprite: pokemon.sprites.other['official-artwork'].front_default,
                 types: pokemon.types.map(type => type.type.name)
             }))
-
-            // this.pokemon = {
-            //     id: json.id,
-            //     name: json.name,
-            //     sprite: json.sprites.other['official-artwork'].front_default,
-            //     types: json.types.map(type => type.type.name)
-            // }
-
-            console.log(this.pokemons)
         }
     }
 }
 </script>
 
 <style scoped>
+
+img {
+    max-width: 100%;
+}
+
+.cards {
+    display: flex;
+}
 .card {
-  border: 1px solid silver;
-  border-radius: 8px;
-  max-width: 200px;
-  margin: 0 5px;
-  cursor: pointer;
-  box-shadow: 0px 1px 3px darkgrey;
-  transition: 0.2s;
+    border: 1px solid silver;
+    border-radius: 8px;
+    max-width: 200px;
+    margin: 0 5px;
+    cursor: pointer;
+    box-shadow: 0px 1px 3px darkgrey;
+    transition: 0.2s;
 }
 .title, .content, .description {
-  padding: 16px;
-  text-transform: capitalize;
-  text-align: center;
+    padding: 16px;
+    text-transform: capitalize;
+    text-align: center;
 }
 .title, .content {
-  border-bottom: 1px solid silver;
+    border-bottom: 1px solid silver;
 }
 .title {
-  font-size: 1.25em;
+    font-size: 1.25em;
 }
 .card:hover {
-  transition: 0.2s;
-  box-shadow: 0px 1px 9px darkgrey;
+    transition: 0.2s;
+    box-shadow: 0px 1px 9px darkgrey;
 }
 </style>
