@@ -12,10 +12,50 @@
             Description
         </div>
     </div>
+
+    <button @click="fecthData">Fecth</button>
 </template>
 
 <script>
+
+const api = 'https://pokeapi.co/api/v2/pokemon'
+const ids = [1, 4, 7]
+
 export default {
+    data() {
+        return {
+            pokemons: []
+        }
+    },
+
+    methods: {
+        async fecthData() {
+            // const response = await fetch(`${api}/1`)
+
+            const responses = await Promise.all(
+                ids.map(id => fetch(`${api}/${id}`))
+            )
+            const json = await Promise.all(
+                responses.map(response => response.json())
+            )
+
+            this.pokemons = json.map(pokemon => ({
+                id: pokemon.id,
+                name: pokemon.name,
+                sprite: pokemon.sprites.other['official-artwork'].front_default,
+                types: pokemon.types.map(type => type.type.name)
+            }))
+
+            // this.pokemon = {
+            //     id: json.id,
+            //     name: json.name,
+            //     sprite: json.sprites.other['official-artwork'].front_default,
+            //     types: json.types.map(type => type.type.name)
+            // }
+
+            console.log(this.pokemons)
+        }
+    }
 }
 </script>
 
