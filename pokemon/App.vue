@@ -55,8 +55,8 @@ export default {
         async fetchEvolutions(pokemon) {
             this.evolutions = await this.fecthData(
                 [
-                    Number(`${pokemon.id}`) + 1,
-                    Number(`${pokemon.id}`) + 2
+                    pokemon.id + 1,
+                    pokemon.id + 2
                 ]
             )
 
