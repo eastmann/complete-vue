@@ -24,7 +24,7 @@ You can use whatever version, but I have only tested with those versions. Don't 
 
 `master` contains the completed code. Run projects with:
 
-```
+```sh
 yarn vite --config vite.config.js <project>
 ```
 
@@ -54,7 +54,7 @@ Learn about the Options API and the basics of Vue.js.
 ## Project #2: Pokemon Evolutions
 
 - fetching data with the Fetch API
-- reuables components with <slot>
+- reuables components with `<slot>`
 - class + style bindings
 - emitting events
 - thinking in Vue
